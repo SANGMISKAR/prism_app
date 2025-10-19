@@ -134,10 +134,11 @@ The app will launch on your emulator or connected device.
 
 | Screen | Description | Screenshot |
 |---------|--------------|-------------|
-| 🏠 Home Screen | Main dashboard with “Prism Magic” and “Edit Image” | ![Home Screen](./screenshots/home_screen.png) |
-| 🪄 Prism Magic Screen | Upload and start AI colorization | ![Prism Magic](./screenshots/prism_magic_screen.png) |
-| 🎨 Result Screen | Displays colorized image with download | ![Result Screen](./screenshots/result_screen.png) |
-| 👤 Profile Screen | View and edit user info and avatar | ![Profile Screen](./screenshots/profile_screen.png) |
+|🔐 Sign Up / Sign In | User authentication page with toggle between Sign Up and Sign In | ![Auth Screen](./screenshot/auth_screen.png) |
+| 🏠 Home Screen | Main dashboard with “Prism Magic” and “Edit Image” | ![Home Screen](./screenshot/home_screen.png) |
+| 🪄 Prism Magic Screen | Upload and start AI colorization | ![Prism Magic](./screenshot/prism_magic_screen.png) |
+| 🎨 Result Screen | Displays colorized image with download | ![Result Screen](./screenshot/result_screen.png) |
+| 👤 Profile Screen | View and edit user info and avatar | ![Profile Screen](./screenshot/profile_screen.png) |
 
 ---
 
