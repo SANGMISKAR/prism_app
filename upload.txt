@@ -1,0 +1,151 @@
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:image_picker_web/image_picker_web.dart'; // Add for web support
+import 'dart:typed_data';
+
+class UploadScreen extends StatefulWidget {
+  const UploadScreen({super.key});
+
+  @override
+  _UploadScreenState createState() => _UploadScreenState();
+}
+
+class _UploadScreenState extends State<UploadScreen> {
+  double _contrast = 1.0;
+  double _brightness = 1.0;
+  double _saturation = 1.0;
+  String selectedTool = '';
+  File? _imageFile; // For mobile
+  Uint8List? _webImageData; // For web
+  final ImagePicker _picker = ImagePicker();
+
+  // Pick an image from the gallery
+  void _pickImage() async {
+    if (kIsWeb) {
+      // Web-specific image picking
+      final pickedFile = await ImagePickerWeb.getImageAsBytes();
+      if (pickedFile != null) {
+        setState(() {
+          _webImageData = pickedFile;
+        });
+      }
+    } else {
+      // Mobile-specific image picking
+      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          _imageFile = File(pickedFile.path);
+        });
+      }
+    }
+  }
+
+  // Show adjustment slider for editing
+  void _showSlider(String tool) {
+    setState(() {
+      selectedTool = tool;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Edit Photo", style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.black,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () {
+              // TODO: Implement Save functionality
+            },
+          ),
+        ],
+      ),
+      backgroundColor: Colors.black,
+      body: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: _imageFile != null
+                  ? Image.file(_imageFile!, fit: BoxFit.cover) // For mobile
+                  : _webImageData != null
+                      ? Image.memory(_webImageData!) // For web
+                      : const Center(child: Text("No image selected", style: TextStyle(color: Colors.white))),
+            ),
+          ),
+          // Tool Sliders
+          if (selectedTool.isNotEmpty)
+            Column(
+              children: [
+                Text(
+                  selectedTool,
+                  style: const TextStyle(color: Colors.white, fontSize: 18),
+                ),
+                Slider(
+                  value: selectedTool == "Contrast"
+                      ? _contrast
+                      : selectedTool == "Brightness"
+                          ? _brightness
+                          : _saturation,
+                  min: 0.0,
+                  max: 2.0,
+                  divisions: 20,
+                  activeColor: Colors.purpleAccent,
+                  inactiveColor: Colors.grey[700],
+                  onChanged: (value) {
+                    setState(() {
+                      if (selectedTool == "Contrast") {
+                        _contrast = value;
+                      } else if (selectedTool == "Brightness") {
+                        _brightness = value;
+                      } else {
+                        _saturation = value;
+                      }
+                    });
+                  },
+                ),
+              ],
+            ),
+          // Tool Buttons
+          Container(
+            padding: const EdgeInsets.all(10),
+            color: Colors.black,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildToolButton("Contrast", Icons.contrast),
+                _buildToolButton("Brightness", Icons.wb_sunny),
+                _buildToolButton("Saturation", Icons.color_lens),
+                _buildToolButton("Pick Image", Icons.image),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildToolButton(String label, IconData icon) {
+    return Column(
+      children: [
+        IconButton(
+          icon: Icon(icon, color: Colors.white),
+          onPressed: () {
+            if (label == "Pick Image") {
+              _pickImage();
+            } else {
+              _showSlider(label);
+            }
+          },
+        ),
+        Text(
+          label,
+          style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+        ),
+      ],
+    );
+  }
+}
