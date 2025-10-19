@@ -204,3 +204,8 @@ Open a Pull Request or raise an Issue.
 ---
 
 ## 🪄 “Transform the Past into Vivid Memories.”
+
+---
+## 🌟 Support
+If you like this project, please consider giving it a **⭐ on GitHub** — it helps others discover Prism!
+
