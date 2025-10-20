@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     return FirebaseOptions(
-      apiKey: "AIzaSyBl5_WI7GVDJmPcPQGJB8F1nO7z4ig1gUo",
+      apiKey: "", //addd ur API Key from fire base 
       authDomain: "prism-aec3b.firebaseapp.com",
       projectId: "prism-aec3b",
       storageBucket: "prism-aec3b.appspot.com",
